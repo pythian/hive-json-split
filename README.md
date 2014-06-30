@@ -48,4 +48,6 @@ The json_split function by itself takes a json string like '[1,2,3]' and turns i
 ]
 ```
 
-Then you can use the built-in explode UDTF and LATERAL VIEW to produce one record per element in the JSON array.
+Then you can use the built-in explode UDTF and LATERAL VIEW to produce one record per element in the JSON array. 
+
+You can access the JSON string for the element with the json_string attribute. Row_id is the position in the array.
