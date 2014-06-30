@@ -24,7 +24,7 @@ add jar target/JsonSplit-1.0-SNAPSHOT.jar;
 create temporary function json_split as 'com.pythian.hive.udf.JsonSplitUDF';
 
 create table json_example (json string);
-load data local in path 'example.json' into table json_example;
+load data local inpath 'example.json' into table json_example;
 
 SELECT ex.* FROM json_example LATERAL VIEW explode(json_split(json_example.json)) ex;
 ```
