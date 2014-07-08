@@ -40,7 +40,7 @@ public class JsonMapUDF extends GenericUDF {
             TypeReference<HashMap<String, Object>> mapType = new TypeReference<HashMap<String, Object>>() {};
             HashMap<String, Object> root = (HashMap<String, Object>) om.readValue(jsonString, mapType);
             for (String s: root.keySet()){
-                root.put(s, root.get(s).toString());
+                map.put(s, root.get(s).toString());
             }
             return map;
         } catch( JsonProcessingException jsonProc) {
