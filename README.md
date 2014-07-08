@@ -14,22 +14,22 @@ Check out the code and run
 
 to build an uberjar with everything you need. 
 
-Usage
+Split UDF
 ===============
 
-The UDF accepts a single JSON string containing only an array. In the Hive CLI:
+The split UDF accepts a single JSON string containing only an array. In the Hive CLI:
 
 ```
 add jar target/JsonSplit-1.0-SNAPSHOT.jar;
 create temporary function json_split as 'com.pythian.hive.udf.JsonSplitUDF';
 
 create table json_example (json string);
-load data local inpath 'example.json' into table json_example;
+load data local inpath 'split_example.json' into table json_example;
 
 SELECT ex.* FROM json_example LATERAL VIEW explode(json_split(json_example.json)) ex;
 ```
 
-The json_split function by itself takes a json string like '[1,2,3]' and turns it into an array of tuples: 
+```json_split``` converts the string to the following array of structs, which are exploded into individual records: 
 
 ```
 [
@@ -48,6 +48,21 @@ The json_split function by itself takes a json string like '[1,2,3]' and turns i
 ]
 ```
 
-Then you can use the built-in explode UDTF and LATERAL VIEW to produce one record per element in the JSON array. 
+You can access the JSON string for the element with the ```json_string``` attribute. The ```json_string``` can be any arbitrary JSON string, including another array or a nested object. ```row_id``` is the position in the array.
 
-You can access the JSON string for the element with the json_string attribute. Row_id is the position in the array.
+Map UDF
+==============
+
+The map UDF accepts a flat JSON object (only integer and string values, no arrays or maps) and converts it into a Hive map. The elements of the map don't have to be defined until query-time, and can be accessed with the square bracket syntax ['key'].
+
+```
+add jar target/JsonSplit-1.0-SNAPSHOT.jar;
+create temporary function json_map as 'com.pythian.hive.udf.JsonMapUDF';
+
+create table json_map_example (json string);
+load data local inpath 'map_example.json' into table json_map_example;
+
+SELECT json_map(json)['x'] FROM json_map_example LATERAL VIEW explode(json_split(json_example.json)) ex;
+```
+
+The above converts the JSON string to a map, then pulls out the value for each record's key 'x'.
