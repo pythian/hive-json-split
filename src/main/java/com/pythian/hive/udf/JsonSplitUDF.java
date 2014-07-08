@@ -61,7 +61,7 @@ public class JsonSplitUDF extends GenericUDF {
     public ObjectInspector initialize(ObjectInspector[] arguments)
             throws UDFArgumentException {
         if(arguments.length != 1
-           || arguments[0].getCategory().equals( Category.PRIMITIVE)
+           || ! arguments[0].getCategory().equals( Category.PRIMITIVE)
            || ((PrimitiveObjectInspector)arguments[0]).getPrimitiveCategory() != PrimitiveCategory.STRING) {
             throw new UDFArgumentException("Usage : json_split(jsonstring) ");
         }
