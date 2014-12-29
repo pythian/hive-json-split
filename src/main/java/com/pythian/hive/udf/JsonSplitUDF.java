@@ -30,18 +30,25 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class JsonSplitUDF extends GenericUDF {
     private StringObjectInspector stringInspector;
 
+    public ArrayList<Object[]> splitJsonString(String jsonString) throws JsonProcessingException, IOException{
+        ObjectMapper om = new ObjectMapper();
+        ArrayList<Object> root = (ArrayList<Object>) om.readValue(jsonString, ArrayList.class);
+        ArrayList<Object[]> json = new ArrayList<Object[]>(root.size());
+        for (int i=0; i<root.size(); i++){
+            if (root.get(i).getClass() == String.class){
+                json.add(new Object[]{i, root.get(i)});
+            } else {
+                json.add(new Object[]{i, om.writeValueAsString(root.get(i))});
+            }
+        }
+        return json;
+    }
+
     @Override
     public Object evaluate(DeferredObject[] arguments) throws HiveException {
         try {
             String jsonString = this.stringInspector.getPrimitiveJavaObject(arguments[0].get());
-
-            ObjectMapper om = new ObjectMapper();
-            ArrayList<Object> root = (ArrayList<Object>) om.readValue(jsonString, ArrayList.class);
-            ArrayList<Object[]> json = new ArrayList<Object[]>(root.size());
-            for (int i=0; i<root.size(); i++){
-                json.add(new Object[]{i, om.writeValueAsString(root.get(i))});
-            }
-            return json;
+            return splitJsonString(jsonString);
         } catch( JsonProcessingException jsonProc) {
             throw new HiveException(jsonProc);
         } catch (IOException e) {
