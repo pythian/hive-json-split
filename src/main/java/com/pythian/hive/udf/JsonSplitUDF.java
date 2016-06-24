@@ -23,10 +23,8 @@ import org.codehaus.jackson.map.ObjectMapper;
  *   UDF to split a JSON array into array of row numbers and json strings
  *
  */
-
 @Description(name="json_split",
-        value = "_FUNC_(json) - Returns a array of JSON strings from a JSON Array"
-)
+        value = "_FUNC_(json) - Returns a array of JSON strings from a JSON Array")
 public class JsonSplitUDF extends GenericUDF {
     private StringObjectInspector stringInspector;
 

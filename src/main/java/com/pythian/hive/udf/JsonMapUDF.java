@@ -23,10 +23,8 @@ import java.util.HashMap;
  *   UDF to split a JSON object into a Hive map
  *
  */
-
 @Description(name="json_map",
-        value = "_FUNC_(json) - Returns a map of key-value pairs from a JSON object"
-)
+        value = "_FUNC_(json) - Returns a map of key-value pairs from a JSON object")
 public class JsonMapUDF extends GenericUDF {
     private StringObjectInspector stringInspector;
 
