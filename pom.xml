@@ -6,7 +6,7 @@
 
     <groupId>JsonSplit</groupId>
     <artifactId>JsonSplit</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
 
     <repositories>
         <repository>
@@ -17,27 +17,26 @@
 
     <properties>
        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-       <apache.hadoop.version>2.6.0-mr1-cdh5.4.7</apache.hadoop.version>
-       <apache.hbase.version>0.98.6-cdh5.3.3</apache.hbase.version>
-       <apache.hive.version>1.1.0-cdh5.4.7</apache.hive.version>
+       <!-- <apache.hadoop.version>2.6.0-cdh5.7.1</apache.hadoop.version> -->
+       <apache.hive.version>1.1.0-cdh5.7.1</apache.hive.version>    
     </properties>
 
     <build>
-        <plugins>
-               <plugin>
-                          <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-shade-plugin</artifactId>
-                              <executions>
-                                  <execution>
-                                      <phase>package</phase>
-                                      <goals>
-                                          <goal>shade</goal>
-                                      </goals>
-                                  </execution>
-                              </executions>
-
-                           </plugin>
-        </plugins>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>2.4.3</version>
+            <executions>
+              <execution>
+                  <phase>package</phase>
+                  <goals>
+                      <goal>shade</goal>
+                  </goals>
+              </execution>
+            </executions>
+         </plugin>
+      </plugins>
     </build>
 
     <dependencies>
@@ -46,14 +45,8 @@
             <artifactId>hive-serde</artifactId>
             <optional>true</optional>
             <version>${apache.hive.version}</version>
-            <!--scope>provided</scope-->
+            <scope>provided</scope>
         </dependency>
-
-        <!--dependency>
-            <groupId>org.apache.hive</groupId>
-            <artifactId>hive-common</artifactId>
-            <version>${apache.hive.version}</version>
-        </dependency-->
 
         <dependency>
             <groupId>org.apache.hive</groupId>
@@ -69,15 +62,15 @@
         </dependency>
 
         <!--dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-core</artifactId>
-            <version>${apache.hadoop.version}</version>
+            <groupId>org.apache.hive</groupId>
+            <artifactId>hive-common</artifactId>
+            <version>${apache.hive.version}</version>
         </dependency-->
 
         <!--dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-common</artifactId>
-            <version>${apache.hbase.version}</version>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-core</artifactId>
+            <version>${apache.hadoop.version}</version>
         </dependency-->
 
         <dependency>
@@ -86,8 +79,6 @@
           <version>4.12</version>
           <scope>test</scope>
         </dependency>
-
-
     </dependencies>
     
 </project>
